@@ -1,9 +1,9 @@
-// Example file for Clinet Logger implementation
+// Content of logging file, sends log to api
 
 const axios = require('axios')
 const {consumer} = require('./config')
 const fs = require('fs')
-const api = 'http://localhost:8080/'
+const api = 'https://spoti-logs.herokuapp.com/'
 const filepath = './test.txt'
 
 const auth = async () => {
@@ -15,7 +15,7 @@ const auth = async () => {
   return res.data.token
 }
 
-const getFileContent = () => {
+const uploadLogs = () => {
   fs.readFile(filepath, 'utf8', async (err, data) => {
     console.log(data)
     await sendFile(data)
@@ -34,6 +34,10 @@ const sendFile = async (logContent) => {
       "authorization": "Bearer " + token
     }
   })
+  await fs.createWriteStream(__dirname + '/test.txt', {flags : 'w'});
 }
 
-getFileContent()
+uploadLogs()
+module.exports = {
+  uploadLogs
+}

@@ -43,20 +43,6 @@ router.post("/auth", async (req, res) => {
     }
 })
 
-router.post('/upload', (req, res, next) => {
-  const form = new multiparty.Form()
-
-  form.parse(req, (err, fields, files) => {
-      res.writeHead(200, {'content-type': 'text/plain'})
-      res.write('received upload:\n\n')
-      res.end(util.inspect({fields: fields, files: files}))
-  })
-  form.on('file', (name,file) => {
-      console.log(file)
-      console.log(name)
-  })
-})
-
 router.post("/", async (req, res) => {
     try {
         if (validateUser(req, res)) {
